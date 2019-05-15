@@ -1,0 +1,151 @@
+import time
+import os
+
+
+y = 'Status: '
+x = 0
+z = 0
+ans = ''
+gm = 0
+fa = ''
+q1 = ''
+q2 = ''
+q3 = ''
+q4 = ''
+q5 = ''
+r1 = ''
+b = 0
+
+print('')
+q1 = input("Do you like guys, in a weird way? Y/N ").upper()
+if q1 in ['Y', 'YES']:
+    gm = gm + 60
+else:
+    gm = gm - 10
+
+print('')
+
+q2 = input("Would you rather have a boyfriend, rather than a girlfriend? Y/N ").upper()
+if q2 in ['Y', 'YES']:
+    gm = gm + 60
+else:
+    gm = gm - 10
+
+print('')
+
+q3 = input("Do you pour milk before cereal? Y/N ").upper()
+if q3 in ['Y', 'YES']:
+    gm = gm + 60
+else:
+    gm = gm - 10
+
+print('')
+
+q4 = input("Do you want a sex change? Y/N ").upper()
+if q4 in ['Y', 'YES']:
+    gm = gm + 60
+else:
+    gm = gm - 10
+
+print('')
+
+q5 = input("Do you think you're gay? Y/N ").upper()
+if q5 in ['Y', 'YES']:
+    gm = gm + 60
+else:
+    gm = gm - 10
+
+print('')
+
+
+
+print('Preparing calculations...')
+time.sleep(2)
+print('Starting')
+time.sleep(1)
+print('')
+
+
+
+while x < 100:
+    x = x + 2
+    print('--', y, x, '--')
+    print('Calculating user data...')
+    print('Analyzing results...')
+    print('Unpacking information...')
+    print('Exporting', x, '% complete!')
+    print('')
+    time.sleep(.1)
+
+print('----------------------------')
+print('Export complete!')
+print('Time taken, 5 seconds')
+
+if x == 100:
+    for i in range(5):
+        print('')
+        print(' ', i-5, 'seconds until next process')
+        time.sleep(1)
+
+    print('')
+
+    while z < 1000:
+        z = z + 25
+        print('Downloaded', z, 'KB of data, out of 1000 KB')
+        time.sleep(.05)
+
+    print('')
+    print('Download complete!')
+
+    if z == 1000:
+        for i in range(3):
+            print('')
+            print(' ', i-3, 'seconds until next process')
+            time.sleep(1)
+
+        print('')
+        ans = input('Are you ready to see your results? Y/N  ').upper()
+
+        if ans in ['Y', 'YES']:
+            print('You are,', gm, '% gay')
+            if gm < 59:
+                print("This is great news!")
+                time.sleep(2)
+                print('')
+                print("I was getting worried there for a second!")
+                time.sleep(2)
+                print('')
+                r1 = input("What do you plan first now that you're officially not gay?: ")
+                print('')
+                print(r1, "...Amazing!")
+                time.sleep(3)
+                print('')
+                print('')
+
+                print(r1, 'will occur in...')
+                time.sleep(1)
+                for i in range(3):
+                    print('')
+                    print(' ', i-3,)
+                    time.sleep(1)
+                clear = lambda: os.system('cls')
+                clear()
+
+            if gm > 60:
+                print('')
+                time.sleep(2)
+                print("I'm sorry for your loss...")
+                time.sleep(2)
+                print('')
+                print("No one coulv've seen something like this happen...")
+                time.sleep(2)
+                print('')
+                print("There's no way for us to treat a disease so ravenous like this one...")
+                time.sleep(2)
+                print('')
+                fa = input("We do offer euthanizations... do you believe this is the best option...?  Y/N  ").upper()
+                if fa in ['Y', 'YES']:
+                    clear = lambda: os.system('cls')
+                    clear()
+        else:
+            print("Well that's a pretty gay answer of you.")
