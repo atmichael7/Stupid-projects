@@ -1,0 +1,270 @@
+import random
+import time
+import os
+import winsound
+from colorama import *
+import json
+
+with open('savedata.txt', 'r') as filehandle:
+    savedata = json.load(filehandle)
+
+
+money = savedata[0]
+jackpot = savedata[1]
+savedata = [money, jackpot]
+
+init()
+
+
+
+
+
+run = False
+runChoice = ""
+s1 = 1
+s2 = 1
+s3 = 1
+bet = 100
+bankrupt = 0
+winstreak = 0
+losestreak = 0
+os.system('cls')
+startup = 1
+while True:
+
+
+
+    print(Fore.MAGENTA + "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --")
+    print("Welcome to unnatractive slots!")
+    if startup == 1:
+        time.sleep(1)
+        print("Here are some commands for you...")
+        time.sleep(1)
+        print("\n  start -- starts a game up for you \n  balance -- shows your current balance \n  quit -- leaves the slot machine, and returns to main menu \n  help -- shows this list of commands \n")
+        startup = 0
+    else:
+        print("Here are some commands for you...")
+        print("\n  start -- starts a game up for you \n  balance -- shows your current balance \n  quit -- leaves the slot machine, and returns to main menu \n  help -- shows this list of commands \n")
+
+    choice = input()
+    choice.lower()
+
+
+    while choice == "start":
+        runChoice = input(Fore.CYAN + "\nYou are in the game, to spin press enter.   To leave the game type quit.")
+        if runChoice == "":
+            s1 = random.randint(1,6)
+            s2 = random.randint(1,6)
+            s3 = random.randint(1,6)
+            bonus = random.randint(1,50)
+            winsound.PlaySound(r'C:/Users/vival/python/spin.wav', winsound.SND_ASYNC)
+            money = money - bet
+            jackpot += bet*4.643 + bonus*3.32
+            l1 = [s1,s2,s3]
+            time.sleep(3.7)
+
+            if l1 == [6,6,6]:
+                money += 1000 + bet*2 + bonus + jackpot + (25*winstreak + 25*losestreak)
+                print("")
+                print(Fore.RED + '\n -$',bet,'on spin ', Fore.YELLOW + '\n','',l1)
+                winsound.PlaySound(r'C:/Users/vival/python/jackpot.wav', winsound.SND_ASYNC)
+                print(Fore.BLUE + " J A C K P O T   winstreak", winstreak)
+                print(Fore.GREEN + " Money earned from jackpot, $", 1000 + bet*2 + bonus + jackpot + (25*winstreak + 25*losestreak))
+                print("")
+                winstreak += 1
+                losestreak = 0
+
+
+            elif l1 == [5,5,5] or l1 == [4,4,4] or l1 == [3,3,3] or l1 == [2,2,2] or l1 == [1,1,1]:
+                money += 150 + bet*1.8 + bonus + (25*winstreak + 25*losestreak)
+                print("")
+                print(Fore.RED + '\n -$',bet,'on spin ', Fore.YELLOW + '\n','',l1)
+                winsound.PlaySound(r'C:/Users/vival/python/winsome.wav', winsound.SND_ASYNC)
+                print(Fore.BLUE + " Nice three in a row! winstreak", winstreak)
+                print(Fore.GREEN + " Money earned from triples, $", 150 + bet*1.8 + bonus + (25*winstreak + 25*losestreak))
+                print("")
+                winstreak += 1
+                losestreak = 0
+
+
+
+            else:
+                if l1[0] == l1[1] or l1 [0] == l1[2] or l1[1] == l1[2]:
+                    money += 50 + bet*1.4 + bonus + (25*winstreak + 25*losestreak)
+                    print("")
+                    print(Fore.RED + '\n -$',bet,'on spin ', Fore.YELLOW + '\n','',l1)
+                    print(Fore.BLUE + " Nice doubles! winstreak", winstreak)
+                    winsound.PlaySound(r'C:/Users/vival/python/winless.wav', winsound.SND_ASYNC)
+                    print(Fore.GREEN + " Money earned from doubles, $", 50 + bet*1.4 + bonus + (25*winstreak + 25*losestreak))
+                    print("")
+                    winstreak += 1
+                    losestreak = 0
+
+
+
+                else:
+                    losestreak += 1
+                    winstreak = 0
+                    print("")
+                    print(Fore.RED + '\n -$', bet,'on spin ', Fore.YELLOW + '\n','',l1)
+                    print(Fore.BLUE + " Tough luck, try again, losing streak", losestreak)
+                    winsound.PlaySound(r'C:/Users/vival/python/none.wav', winsound.SND_ASYNC)
+                    print(Fore.RED + " Total money lost, $",bet)
+                    print("")
+
+
+
+
+            #SAVES THE MONEY
+            savedata = [money, jackpot]
+
+            with open('savedata.txt', 'w') as filehandle:
+                json.dump(savedata, filehandle)
+
+
+
+        elif runChoice == "quit":
+            choice = "quit"
+
+        elif runChoice == "bet 10":
+            if bet > money:
+                print(Fore.RED + "You don't have enough money to bet any more!")
+            else:
+                bet += 10
+                print(Fore.YELLOW + "Added $10 to bet. Total bet, $", bet)
+
+        elif runChoice == "bet 50":
+            if bet > money:
+                print(Fore.RED + "You don't have enough money to bet any more!")
+            else:
+                bet += 50
+                print(Fore.YELLOW + "Added $50 to bet. Total bet, $", bet)
+
+        elif runChoice == "bet 100":
+            if bet > money:
+                print(Fore.RED + "You don't have enough money to bet any more!")
+            else:
+                bet += 100
+                print(Fore.YELLOW + "Added $100 to bet. Total bet, $", bet)
+
+        elif runChoice == "max bet":
+            if money < 10000:
+                print(Fore.RED + "Whoa hold on your horses there pal you don't have enough money! You only have", money)
+            else:
+                bet = 10000
+                print(Fore.RED + "MAXIMUM BET, $10,000!")
+
+        elif runChoice == "take 10":
+            if bet - 10 < 50:
+                print(Fore.RED + "The least you can bet is $50!")
+            else:
+                bet -= 10
+                print(Fore.YELLOW + "Took $10 to bet. Total bet, $", bet)
+
+        elif runChoice == "take 50":
+            if bet - 50 < 50:
+                print(Fore.RED + "The least you can bet is $50!")
+            else:
+                bet -= 50
+                print(Fore.YELLOW + "Took $50 to bet. Total bet, $", bet)
+
+        elif runChoice == "take 100":
+            if bet - 100 < 50:
+                print(Fore.RED + "The least you can bet is $50!")
+            else:
+                bet -= 100
+                print(Fore.YELLOW + "Took $100 to bet. Total bet, $", bet)
+
+        elif runChoice == "min bet":
+            bet = 50
+            print(Fore.YELLOW + "Setting minimum bet. Total bet, $", bet)
+
+        elif runChoice == "help":
+            os.system("cls")
+            print(Fore.YELLOW + "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --")
+            print(Fore.WHITE + "     Here are some commands you can say right now    ")
+            print(Fore.GREEN + "        bet 10", Fore.WHITE + "--", Fore.RED + "Adds $10 to your current bet")
+            print(Fore.GREEN + "        bet 50", Fore.WHITE + "--", Fore.RED + "Adds $50 to your current bet")
+            print(Fore.GREEN + "        bet 100", Fore.WHITE + "--", Fore.RED + "Adds $100 to your current bet")
+            print(Fore.GREEN + "        max bet", Fore.WHITE + "--", Fore.RED + "Sets current bet to $10,000")
+            print("")
+            print(Fore.RED + "        take 10", Fore.WHITE + "--", Fore.GREEN + "Takes $10 from your current bet")
+            print(Fore.RED + "        take 50", Fore.WHITE + "--", Fore.GREEN + "Takes $50 from your current bet")
+            print(Fore.RED + "        take 100", Fore.WHITE + "--", Fore.GREEN + "Takes $100 from your current bet")
+            print(Fore.RED + "        min bet", Fore.WHITE + "--", Fore.GREEN + "Sets current bet to $50")
+            print("")
+            print(Fore.YELLOW + "        jackpot", Fore.WHITE + "--", Fore.YELLOW + "Shows you the current jackpot prize")
+            print(Fore.YELLOW + "        balance", Fore.WHITE + "--", Fore.YELLOW + "Shows you how much money you have")
+            print(Fore.YELLOW + "        bankrupt", Fore.WHITE + "--", Fore.YELLOW + "Grants cash if balance is below $50")
+            print(Fore.YELLOW + "        quit", Fore.WHITE + "--", Fore.YELLOW + "Redirects you to the main menu")
+            print("")
+            print("-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --")
+            print(Fore.WHITE + "         Here are some useful things to know      ")
+            print(Fore.BLUE + "        The minimum bet amount is $50, while the maximum bet is $10,000")
+            print("        If you are on a winning streak you earn extra cash!")
+            print("        If you are on a losing streak, your next win will give you a bonus")
+
+        elif runChoice == "bankrupt":
+            if money < 50:
+                os.system("cls")
+                print("")
+                print(Fore.MAGENTA + "   We see you a pickle here... let's see what we can do.")
+                b1 = random.randint(1,1000)
+                b2 = random.randint(500, 2000)
+                b3 = random.randint(1000, 5000)
+                bankrupt = b1+b2+b3
+                int(bankrupt)
+                time.sleep(1)
+                print("   Let's pick some random cash from the jackpot...\n")
+                time.sleep(2)
+                print(Fore.GREEN + "   You were awarded,", b1, "dollars!")
+                time.sleep(2.1)
+                print(Fore.GREEN + "   You were awarded,", b2, "dollars!")
+                time.sleep(2)
+                print(Fore.GREEN + "   You were awarded,", b3, "dollars!\n")
+                time.sleep(1.6)
+                print(Fore.RED + "  ", bankrupt, "dollars removed from jackpot!\n")
+                time.sleep(1)
+                money = money + bankrupt
+                jackpot = jackpot - bankrupt
+                print(Fore.GREEN + "   Your new balance is", money)
+
+                savedata = [money, jackpot]
+    
+                with open('savedata.txt', 'w') as filehandle:
+                    json.dump(savedata, filehandle)
+
+                time.sleep(1)
+
+            else:
+                print(Fore.RED + "   Sorry can't help you right now...")
+
+
+
+
+        elif runChoice == "jackpot":
+            print(Fore.YELLOW + "The current jackpot is $", jackpot, "hope you get lucky!")
+
+
+
+
+
+
+
+    if choice == "quit":
+        os.system("cls")
+        print(Fore.YELLOW + "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- \n -- Redirecting you to the main menu --")
+        time.sleep(1)
+        choice = ""
+
+    elif choice == "balance":
+        os.system("cls")
+        winsound.PlaySound(r'C:/Users/vival/python/balance.wav', winsound.SND_ASYNC)
+        print(Fore.GREEN + "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- \n -- Your current balance is,", money, " --")
+        time.sleep(1)
+
+    elif choice == "help":
+        os.system("cls")
+        print(Fore.YELLOW + "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- \n -- Redirecting you to the main menu to review commands -- ")
+        time.sleep(1)
+        choice = ""
